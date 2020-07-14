@@ -17,6 +17,53 @@ def mold_growth(self, start, table):
     
     pass
 
+    # Dijkstra's Algorithm - Shortest Path
+    def find_shortest_path(self, start_id, target_id):
+        """
+        Use Dijkstra's Algorithm to return the total weight of the shortest path
+        from a start vertex to a destination.
+        """
+        # Create a dictionary `vertex_to_distance` and initialize all
+        # vertices to INFINITY - hint: use `float('inf')`
+        vertex_to_distance = {}
+        for vertex in self.vertex_dict.values():
+            vertex_to_distance[vertex] = float('inf')
+            
+        start_vertex = self.vertex_dict[start_id]
+        vertex_to_distance[start_vertex] = 0
+
+        # While `vertex_to_distance` is not empty:
+        while vertex_to_distance:
+        # 1. Get the minimum-distance remaining vertex, remove it from the
+        #    dictionary. If it is the target vertex, return its distance.
+            min_distance = min(vertex_to_distance.values())
+            min_vertex = None
+            
+            for vertex in vertex_to_distance:
+                if vertex_to_distance[vertex] == min_distance:
+                    min_vertex = vertex
+        
+        # 2. Update that vertex's neighbors by adding the edge weight to the
+        #    vertex's distance, if it is lower than previous.
+            weight_of_neighbor = (
+                list(min_vertex.neighbors_dict.values())
+            )
+            
+            if min_vertex.id == target_id:
+                return vertex_to_distance[min_vertex]
+            
+            for neighbor, weight in weight_of_neighbor:
+                if neighbor in vertex_to_distance:
+                    current_distance = vertex_to_distance[neighbor]
+                    new_distance = weight + vertex_to_distance[min_vertex]
+                    if new_distance < current_distance:
+                        vertex_to_distance[neighbor] = new_distance
+
+            del vertex_to_distance[min_vertex]
+
+        # Return None if target vertex not found.
+        return None
+
 # Create a large, weighted, undirected graph for testing
 def make_large_graph(self):
     graph = WeightedGraph(is_directed=False)
