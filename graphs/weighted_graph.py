@@ -195,6 +195,9 @@ class WeightedGraph(Graph):
         vertex_to_distance = {}
         for vertex in self.vertex_dict.values():
             vertex_to_distance[vertex] = float('inf')
+            
+        start_vertex = self.vertex_dict[start_id]
+        vertex_to_distance[start_vertex] = 0
 
         # While `vertex_to_distance` is not empty:
         while vertex_to_distance:

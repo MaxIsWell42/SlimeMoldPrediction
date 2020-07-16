@@ -1,71 +1,28 @@
 from graphs.weighted_graph import WeightedGraph
+from graphs.graph import Graph
 
 """ The questions:
 - How the slime mold will go from one vertex to another(Dijkstra's Algorithm), 
 - How it will 'grow' out and around itself(find vertices n away), and 
-- The possible final solution from one vertex to all the others without extra connections(Kruskal's Algorithm) 
+- The possible final solution from one vertex to all the others without extra connections(Prim's Algorithm) 
 """
 
-def mold_growth(self, start, table):
-    """ For simulating slime mold growth, which finds the most efficient path between all nodes of nutrients
-        
-        Arguments: 
-        start: The point to start at
-        table: The simulated table with vertices representing food
+# Find all nodes n away as the slime mold expands in growth
+def mold_growth(self, start, search_range):
+    """ For finding all of the nodes around within a certain range, simulating mold exploring around itself for food
     """
+    food = list()
     
-    
-    pass
+    # Find all nodes of food around the starting point, simulating the mold growing out in all directions
+    for dist in range(search_range):
+        current_found = Graph.find_vertices_n_away(start, dist)
+        if current_found not in food:
+            food.append(current_found)
+    return food
 
-    # Dijkstra's Algorithm - Shortest Path
-    def find_shortest_path(self, start_id, target_id):
-        """
-        Use Dijkstra's Algorithm to return the total weight of the shortest path
-        from a start vertex to a destination.
-        """
-        # Create a dictionary `vertex_to_distance` and initialize all
-        # vertices to INFINITY - hint: use `float('inf')`
-        vertex_to_distance = {}
-        for vertex in self.vertex_dict.values():
-            vertex_to_distance[vertex] = float('inf')
-            
-        start_vertex = self.vertex_dict[start_id]
-        vertex_to_distance[start_vertex] = 0
 
-        # While `vertex_to_distance` is not empty:
-        while vertex_to_distance:
-        # 1. Get the minimum-distance remaining vertex, remove it from the
-        #    dictionary. If it is the target vertex, return its distance.
-            min_distance = min(vertex_to_distance.values())
-            min_vertex = None
-            
-            for vertex in vertex_to_distance:
-                if vertex_to_distance[vertex] == min_distance:
-                    min_vertex = vertex
-        
-        # 2. Update that vertex's neighbors by adding the edge weight to the
-        #    vertex's distance, if it is lower than previous.
-            weight_of_neighbor = (
-                list(min_vertex.neighbors_dict.values())
-            )
-            
-            if min_vertex.id == target_id:
-                return vertex_to_distance[min_vertex]
-            
-            for neighbor, weight in weight_of_neighbor:
-                if neighbor in vertex_to_distance:
-                    current_distance = vertex_to_distance[neighbor]
-                    new_distance = weight + vertex_to_distance[min_vertex]
-                    if new_distance < current_distance:
-                        vertex_to_distance[neighbor] = new_distance
-
-            del vertex_to_distance[min_vertex]
-
-        # Return None if target vertex not found.
-        return None
-
-# Create a large, weighted, undirected graph for testing
-def make_large_graph(self):
+# Create a large, weighted, undirected graph of food nodes
+def make_food_table():
     graph = WeightedGraph(is_directed=False)
     vertex_a = graph.add_vertex('A')
     vertex_b = graph.add_vertex('B')
@@ -95,5 +52,13 @@ def make_large_graph(self):
     return graph
 
 if __name__ == "__main__":
+    graph = make_food_table()
+    # In these cases, I'm using A as the point where the mold is introduced into the environment
+    # Finding the shortest path from the start point to food, could be between anywhere
+    shortest_path = graph.WeightedGraph.find_shortest_path('A', 'J')
     
-    pass
+    # Finding all nodes of food around the start of mold growth, in this case within a distance of 6
+    food_in_vicinity = graph.mold_growth('a', 6)
+    
+    # Finding what the slime mold would look like if it didn't have the extra connections between nodes
+    mold_no_extra = graph.minimum_spanning_tree_prim()
