@@ -8,7 +8,7 @@ class WeightedVertex(Vertex):
         Parameters:
         vertex_id (string): A unique identifier to identify this vertex.
         """
-        self.__id = vertex_id
+        self.id = vertex_id
         self.neighbors_dict = {} # id -> (obj, weight)
 
     def add_neighbor(self, vertex_obj, weight):
@@ -19,7 +19,7 @@ class WeightedVertex(Vertex):
         vertex_obj (Vertex): An instance of Vertex to be stored as a neighbor.
         weight (int): The edge weight from self -> neighbor.
         """
-        self.neighbors_dict[vertex_obj.__id] = (vertex_obj, weight)
+        self.neighbors_dict[vertex_obj.id] = (vertex_obj, weight)
         return self.neighbors_dict
 
     def get_neighbors(self):

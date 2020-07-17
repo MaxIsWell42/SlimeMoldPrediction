@@ -15,7 +15,7 @@ def mold_growth(self, start, search_range):
     
     # Find all nodes of food around the starting point, simulating the mold growing out in all directions
     for dist in range(search_range):
-        current_found = Graph.find_vertices_n_away(start, dist)
+        current_found = Graph.find_vertices_n_away(graph, start, dist)
         if current_found not in food:
             food.append(current_found)
     return food
@@ -55,10 +55,10 @@ if __name__ == "__main__":
     graph = make_food_table()
     # In these cases, I'm using A as the point where the mold is introduced into the environment
     # Finding the shortest path from the start point to food, could be between anywhere
-    shortest_path = graph.WeightedGraph.find_shortest_path('A', 'J')
+    shortest_path = graph.find_shortest_path('A', 'J')
     
     # Finding all nodes of food around the start of mold growth, in this case within a distance of 6
-    food_in_vicinity = graph.mold_growth('a', 6)
+    food_in_vicinity = mold_growth(graph, 'a', 6)
     
     # Finding what the slime mold would look like if it didn't have the extra connections between nodes
     mold_no_extra = graph.minimum_spanning_tree_prim()
